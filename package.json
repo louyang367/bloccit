@@ -1,0 +1,19 @@
+{
+  "name": "bloccit",
+  "version": "1.0.0",
+  "description": "A Reddit-like application for users to discuss and share content",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[3~\u001b[3~\u001b[\u001b[2~\u001b[\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b&& jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/louyang367/bloccit.git"
+  },
+  "author": "Lu Ouyang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/louyang367/bloccit/issues"
+  },
+  "homepage": "https://github.com/louyang367/bloccit#readme"
+}
