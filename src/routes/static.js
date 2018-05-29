@@ -1,8 +1,8 @@
 const express = require("express");
+const staticController = require("../controllers/staticController");
+
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  res.send("Welcome to Bloccit");
-});
+router.get("/", staticController.index);
 
 module.exports = router;
