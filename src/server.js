@@ -5,8 +5,8 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-server.listen(port, '0.0.0.0');
-console.log('Using server.listen(port, 0.0.0.0)');
+server.listen(port);
+
 function normalizePort(val) {
   const port = parseInt(val, 10);
   if (isNaN(port)) {
