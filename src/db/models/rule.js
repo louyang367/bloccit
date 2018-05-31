@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       onDelete: "CASCADE",
       references: {
-        model: "topic",
+        model: "Topics",
         key: "id",
         as: "topicId",
       }
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Rule.associate = function(models) {
     // associations can be defined here
-    Rule.belongsTo(models.topic, {
+    Rule.belongsTo(models.Topics, {
       foreignKey: "topicId",
       onDelete: "CASCADE",
     });
