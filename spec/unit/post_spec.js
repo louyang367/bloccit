@@ -3,12 +3,10 @@ const Topic = require("../../src/db/models").Topics;
 const Post = require("../../src/db/models").Post;
 
 describe("Post", () => {
-console.log('inside describe(post)')
   beforeEach((done) => {
     this.topic;
     this.post;
     sequelize.sync({ force: true }).then((res) => {
-console.log('inside beforeEach')
       Topic.create({
         title: "Expeditions to Alpha Centauri",
         description: "A compilation of reports from recent visits to the star system."

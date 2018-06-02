@@ -1,6 +1,5 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  console.log('inside post.js')
   var Post = sequelize.define('Post', {
     title: {
       type: DataTypes.STRING,
