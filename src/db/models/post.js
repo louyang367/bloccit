@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    flairName: {
-      type: DataTypes.STRING
+    flairId: {
+      type: DataTypes.INTEGER
     }
   }, {});
 
@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE"
     });
     Post.belongsTo(models.Flair, {
-      foreignKey: "flairName"//,
-      //as: "flairName"
+      foreignKey: "flairId",
+      as: "flair"
     });
   };
   return Post;

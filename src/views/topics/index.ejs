@@ -17,9 +17,9 @@
             <a href="/topics/<%= topic.id %>">
               <%= topic.title %>
             </a>
-            <% if (topic.flair) { %>
-              <button > <!-- </button>style="color: <%= flair.color %>">  -->
-                <%= flair.name %>
+            <% if (topic.flairId) { %>
+              <button style="background: <%= topic.flair.color %>">
+                <%= topic.flair.name %>
               </button>
             <% } %>
           </li>

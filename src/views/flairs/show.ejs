@@ -18,9 +18,9 @@
             </button>
 
             <hr>
-            <a href="/flairs/<%= flair.name %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/flairs/<%= flair.id %>/edit" class="btn btn-warning">Edit</a>
             <a href="/flairs/new" class="btn btn-success">New Flair</a>
-            <form style="display:initial" action="/flairs/<%= flair.name %>/destroy" method="post">
+            <form style="display:initial" action="/flairs/<%= flair.id %>/destroy" method="post">
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
          

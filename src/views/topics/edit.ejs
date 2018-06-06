@@ -23,11 +23,15 @@
         </div>
         <div class="form-group">
           <label for="Flair">Flair</label>
-          <select id="Flair" size="10" class="form-control" name="flair" aria-describedby="titleHelp">
+          <select id="Flair" size="1" name="flairId" class="form-control" aria-describedby="titleHelp">
             <option></option>
             <% allFlairs.forEach((flair) => { %>
-              <option value="<%= flair.name %>"></option>
-              <% }) %>
+              <% if (topic.flairId==flair.id){ %>
+                <option selected value="<%= flair.id %>"><%= flair.name %></option>
+              <% }else{ %>
+                <option value="<%= flair.id %>"><%= flair.name %></option>
+              <% } %>
+            <% }) %>
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

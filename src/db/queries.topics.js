@@ -1,9 +1,15 @@
 const Topic = require("./models").Topic;
 const Post = require("./models").Post;
+const Flair = require("./models").Flair;
 
 module.exports = {
   getAllTopics(callback) {
-    return Topic.all()
+    return Topic.all({
+      include: [{
+        model: Flair,
+        as: "flair"
+      }]
+    })
       .then((topics) => {
         callback(null, topics);
       })
@@ -15,7 +21,8 @@ module.exports = {
   addTopic(newTopic, callback) {
     return Topic.create({
       title: newTopic.title,
-      description: newTopic.description
+      description: newTopic.description,
+      flairId: newTopic.flairId
     })
       .then((topic) => {
         callback(null, topic);
@@ -30,6 +37,9 @@ module.exports = {
       include: [{
         model: Post,
         as: "posts"
+      },{
+        model: Flair,
+        as: "flair"
       }]
     })
       .then((topic) => {
@@ -58,14 +68,18 @@ module.exports = {
         if (!topic) {
           return callback("Topic not found");
         }
-
+console.log('updatedTopic=',updatedTopic)
+console.log('updatedTopic.keys=',Object.keys(updatedTopic));
+        if (updatedTopic.flairId==='') updatedTopic.flairId = null;
         topic.update(updatedTopic, {
           fields: Object.keys(updatedTopic)
         })
-          .then(() => {
+          .then((topic) => {
+console.log('after updateTopic: topic=',topic)
             callback(null, topic);
           })
           .catch((err) => {
+console.log('after updateTopic, error: ',err)
             callback(err);
           });
       });

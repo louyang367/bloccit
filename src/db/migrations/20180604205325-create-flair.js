@@ -11,7 +11,6 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true,
         unique: true
       },
       color: {

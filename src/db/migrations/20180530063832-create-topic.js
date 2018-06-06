@@ -16,15 +16,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      topicId: {
-        type: Sequelize.INTEGER
-      },
-      flairName: {
-        type: Sequelize.STRING,
+      // topicId: {
+      //   type: Sequelize.INTEGER
+      // },
+      flairId: {
+        type: Sequelize.INTEGER,
         references: {
           model: "Flairs",
-          key: "name",
-          as: "flairName"
+          key: "id",
+          as: "flairId"
         }
       },
       createdAt: {

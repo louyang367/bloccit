@@ -34,12 +34,12 @@ module.exports = {
           as: "topicId"      // reference as topicId
         },
       },
-      flairName: {
-        type: Sequelize.STRING,
+      flairId: {
+        type: Sequelize.INTEGER,
         references: { 
           model: "Flairs", 
-          key: "name",
-          as: "flairName"
+          key: "id",
+          as: "flairId"
         }
       }
     });

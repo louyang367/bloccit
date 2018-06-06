@@ -13,6 +13,17 @@
         <button type="submit" class="btn btn-danger">Delete</button>
       </form> 
       <p><%= post.body %></p>
+
+      <h3>Flair</h3>
+      <% if (post.flairId) {%>
+        <%= post.flair.name %>
+        <button style="background: <%= post.flair.color %>">
+          <%= post.flair.name %>
+        </button>
+      <% } else { %>
+        <p>No flair</p>
+      <% } %>
+
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

@@ -10,7 +10,6 @@
 
     <main class="container">
       <h1>New Post</h1>
-      <!-- #1 -->
       <form action="/topics/<%= topicId %>/posts/create" method="post">
         <div class="form-group">
           <label for="title">Post title</label>
@@ -19,6 +18,15 @@
         <div class="form-group">
           <label for="body">Post body</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Post body"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="flair">Flair</label>
+          <select id="flair" size="1" name="flairId" class="form-control" aria-describedby="titleHelp">
+            <option></option>
+            <% allFlairs.forEach((flair) => { %>
+              <option value="<%= flair.id %>"><%= flair.name %></option>
+            <% }) %>
+          </select>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

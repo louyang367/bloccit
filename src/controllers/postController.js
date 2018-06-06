@@ -1,15 +1,20 @@
 const postQueries = require("../db/queries.posts.js");
+const flairQueries = require("../db/queries.flairs.js");
 
 module.exports = {
   new(req, res, next) {
-    res.render("posts/new", { topicId: req.params.topicId });
+    flairQueries.getAllFlairs((err, allFlairs) => {
+      if (err) console.log(err);
+      res.render("posts/new", { topicId: req.params.topicId, allFlairs: allFlairs });
+    })
   },
 
   create(req, res, next){
     let newPost= {
       title: req.body.title,
       body: req.body.body,
-      topicId: req.params.topicId
+      topicId: req.params.topicId,
+      flairId: req.body.flairId==''?null:req.body.flairId
     };
     postQueries.addPost(newPost, (err, post) => {
       if(err){
@@ -25,7 +30,7 @@ module.exports = {
       if(err || post == null){
         res.redirect(404, "/");
       } else {
-        res.render("posts/show", {post});
+          res.render("posts/show", { post });
       }
     });
   },
@@ -45,7 +50,10 @@ module.exports = {
       if(err || post == null){
         res.redirect(404, "/");
       } else {
-        res.render("posts/edit", {post});
+        flairQueries.getAllFlairs((err, allFlairs) => {
+          if (err) console.log(err);
+          res.render("posts/edit", { post:post, allFlairs:allFlairs });
+        });
       }
     });
   },

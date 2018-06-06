@@ -26,8 +26,8 @@ module.exports = {
       })
   },
 
-  getFlair(name, callback) {
-    return Flair.findById(name, {
+  getFlair(id, callback) {
+    return Flair.findById(id, {
       include: [{
         model: Post,
         as: "posts"
@@ -38,9 +38,11 @@ module.exports = {
       }]
     })
       .then((flair) => {
+console.log('getFlair() success')
         callback(null, flair);
       })
       .catch((err) => {
+console.log('getFlair() error!')
         callback(err);
       })
   },
@@ -68,7 +70,7 @@ console.log('updatedFlair.name, updatedFlair.color= ',updatedFlair.name, updated
           fields: Object.keys(updatedFlair)
         })
           .then(() => {
-            callback(null, updatedFlair);
+            callback(null, flair);
           })
           .catch((err) => {
             callback(err);

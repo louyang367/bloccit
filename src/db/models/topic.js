@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    flairName: {
-      type: DataTypes.STRING
+    flairId: {
+      type: DataTypes.INTEGER
     }
   }, {});
 
@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       as: "posts"
     });
     Topic.belongsTo(models.Flair, {
-      foreignKey: "flairName"//,
-      //as: "flairName"
+      foreignKey: "flairId",
+      as: "flair"
     });
   };
   return Topic;

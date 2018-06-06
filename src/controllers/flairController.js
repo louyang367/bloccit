@@ -26,28 +26,28 @@ module.exports = {
       if(err){
         res.redirect(500, "/flairs/new");
       } else {
-        res.redirect(303, `/flairs/index`);
+        res.redirect(303, `/flairs/${flair.id}`);
       }
     });
   },
 
   show(req, res, next) {
-    console.log('req.params=',req.params)
-    flairQueries.getFlair(req.params.name, (err, flair) => {
+console.log('flairController.js:show():req.params=',req.params)
+    flairQueries.getFlair(req.params.id, (err, flair) => {
       if (err || flair == null) {
         console.log(err);
         res.redirect(404, "/");
       } else {
-        console.log('flair=',flair)
+console.log('flair=',flair)
         res.render("flairs/show", { flair });
       }
     });
   },
 
   destroy(req, res, next){
-    flairQueries.deleteFlair(req.params.name, (err, deletedRecordsCount) => {
+    flairQueries.deleteFlair(req.params.id, (err, deletedRecordsCount) => {
       if(err){
-        res.redirect(500, `/flairs/${req.params.flairId}/flairs/${req.params.name}`)
+        res.redirect(500, `/flairs/${req.params.flairId}`)
       } else {
         res.redirect(303, `/flairs/index`);
       }
@@ -55,7 +55,7 @@ module.exports = {
   },
 
   edit(req, res, next){
-    flairQueries.getFlair(req.params.name, (err, flair) => {
+    flairQueries.getFlair(req.params.id, (err, flair) => {
       if(err || flair == null){
         res.redirect(404, "/");
       } else {
@@ -65,11 +65,11 @@ module.exports = {
   },
 
   update(req, res, next){
-    flairQueries.updateFlair(req.params.name, req.body, (err, flair) => {
+    flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
       if(err || flair == null){
-        res.redirect(404, `/flairs/${req.params.name}/edit`);
+        res.redirect(404, `/flairs/${req.params.id}/edit`);
       } else {
-        res.redirect(`/flairs/${flair.name}`);
+        res.redirect(`/flairs/${flair.id}`);
       }
     });
   }

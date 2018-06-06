@@ -19,7 +19,20 @@
           <label for="body">Post body</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Description"><%= post.body %></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <div class="form-group">
+          <label for="Flair">Flair</label>
+          <select id="Flair" size="1" name="flairId" class="form-control" aria-describedby="titleHelp">
+              <option></option>
+              <% allFlairs.forEach((flair) => { %>
+                <% if (post.flairId==flair.id){ %>
+                  <option selected value="<%= flair.id %>"><%= flair.name %></option>
+                <% }else{ %>
+                  <option value="<%= flair.id %>"><%= flair.name %></option>
+                <% } %>
+              <% }) %>
+            </select>
+        </div>
+         <button type="submit" class="btn btn-primary">Update</button>
       </form>
     </main>
 

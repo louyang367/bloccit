@@ -4,10 +4,10 @@ const flairController = require("../controllers/flairController")
 
 router.get("/flairs/new", flairController.new);
 router.post("/flairs/create", flairController.create);
-router.get("/flairs/index", flairController.index);
-router.get("/flairs/:name", flairController.show);
-router.post("/flairs/:name/destroy", flairController.destroy);
-router.get("/flairs/:name/edit", flairController.edit);
-router.post("/flairs/:name/update", flairController.update);
+router.get("/flairs", flairController.index);
+router.get("/flairs/:id", flairController.show);
+router.post("/flairs/:id/destroy", flairController.destroy);
+router.get("/flairs/:id/edit", flairController.edit);
+router.post("/flairs/:id/update", flairController.update);
 
 module.exports = router;

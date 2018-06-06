@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
+      // primaryKey: true,
       unique: true
     },
     color: {
@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   
   Flair.associate = function(models) {
     Flair.hasMany(models.Topic, {
-      foreignKey: "flairName",
+      foreignKey: "flairId",
       as: "topics"
     });
     Flair.hasMany(models.Post, {
-      foreignKey: "flairName",
+      foreignKey: "flairId",
       as: "posts"
     });
   };
