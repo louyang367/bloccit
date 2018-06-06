@@ -33,6 +33,14 @@ module.exports = {
           key: "id",         // attribute to use
           as: "topicId"      // reference as topicId
         },
+      },
+      flairName: {
+        type: Sequelize.STRING,
+        references: { 
+          model: "Flairs", 
+          key: "name",
+          as: "flairName"
+        }
       }
     });
   },

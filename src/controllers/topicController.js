@@ -1,4 +1,6 @@
 const topicQueries = require("../db/queries.topics.js");
+const flairQueries = require("../db/queries.flairs.js");
+
 module.exports = {
   index(req, res, next) {
     topicQueries.getAllTopics((err, topics) => {
@@ -13,7 +15,10 @@ module.exports = {
   },
 
   new(req, res, next) {
-    res.render("topics/new");
+    flairQueries.getAllFlairs((err, allFlairs) => {
+      if (err) console.log(err);
+      res.render("topics/new", { allFlairs });
+    });
   },
 
   create(req, res, next) {
@@ -56,8 +61,11 @@ module.exports = {
       if (err || topic == null) {
         res.redirect(404, "/");
       } else {
-        res.render("topics/edit", { topic });
-      }
+        flairQueries.getAllFlairs((err, allFlairs) => {
+          if (err) console.log(err);
+          res.render("topics/edit", { topic, allFlairs });
+      })
+    }
     });
   },
 

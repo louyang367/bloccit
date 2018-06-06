@@ -9,14 +9,20 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    flairName: {
+      type: DataTypes.STRING
     }
   }, {});
 
   Topic.associate = function (models) {
-    // associations can be defined here
     Topic.hasMany(models.Post, {
       foreignKey: "topicId",
       as: "posts"
+    });
+    Topic.belongsTo(models.Flair, {
+      foreignKey: "flairName"//,
+      //as: "flairName"
     });
   };
   return Topic;

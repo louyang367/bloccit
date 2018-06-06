@@ -1,31 +1,22 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Topics", {
+    return queryInterface.createTable('Flairs', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        primaryKey: true,
+        unique: true
+      },
+      color: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      topicId: {
-        type: Sequelize.INTEGER
-      },
-      flairName: {
-        type: Sequelize.STRING,
-        references: {
-          model: "Flairs",
-          key: "name",
-          as: "flairName"
-        }
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +29,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Topics");
+    return queryInterface.dropTable('Flairs');
   }
 };
