@@ -38,11 +38,9 @@ module.exports = {
       }]
     })
       .then((flair) => {
-console.log('getFlair() success')
         callback(null, flair);
       })
       .catch((err) => {
-console.log('getFlair() error!')
         callback(err);
       })
   },
@@ -65,7 +63,6 @@ console.log('getFlair() error!')
         if (!flair) {
           return callback("Flair not found");
         }
-console.log('updatedFlair.name, updatedFlair.color= ',updatedFlair.name, updatedFlair.color)
         flair.update(updatedFlair, {
           fields: Object.keys(updatedFlair)
         })

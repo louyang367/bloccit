@@ -16,12 +16,12 @@
           <li class="list-group-item">
             <a href="/topics/<%= topic.id %>">
               <%= topic.title %>
+              <% if (topic.flairId) { %>
+                <button style="background: <%= topic.flair.color %>">
+                  <%= topic.flair.name %>
+                </button>
+              <% } %>
             </a>
-            <% if (topic.flairId) { %>
-              <button style="background: <%= topic.flair.color %>">
-                <%= topic.flair.name %>
-              </button>
-            <% } %>
           </li>
         <% }) %>
       </ul>

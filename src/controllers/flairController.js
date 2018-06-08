@@ -8,7 +8,7 @@ module.exports = {
         console.log(err);
         res.redirect(500, "static/index");
       } else {
-        res.render("flairs/index", { flairs });
+        res.render("flairs/", { flairs });
       }
     })
   },
@@ -17,13 +17,13 @@ module.exports = {
     res.render("flairs/new");
   },
 
-  create(req, res, next){
-    let newFlair= { 
+  create(req, res, next) {
+    let newFlair = {
       name: req.body.name,
       color: req.body.color
     };
     flairQueries.addFlair(newFlair, (err, flair) => {
-      if(err){
+      if (err) {
         res.redirect(500, "/flairs/new");
       } else {
         res.redirect(303, `/flairs/${flair.id}`);
@@ -32,41 +32,40 @@ module.exports = {
   },
 
   show(req, res, next) {
-console.log('flairController.js:show():req.params=',req.params)
     flairQueries.getFlair(req.params.id, (err, flair) => {
       if (err || flair == null) {
         console.log(err);
         res.redirect(404, "/");
       } else {
-console.log('flair=',flair)
         res.render("flairs/show", { flair });
       }
     });
   },
 
-  destroy(req, res, next){
+  destroy(req, res, next) {
     flairQueries.deleteFlair(req.params.id, (err, deletedRecordsCount) => {
-      if(err){
-        res.redirect(500, `/flairs/${req.params.flairId}`)
+      if (err) {
+        console.log('flairController.destroy() error=', err)
+        res.redirect(500, `/flairs/${req.params.id}`)
       } else {
-        res.redirect(303, `/flairs/index`);
+        res.redirect(303, `/flairs`);
       }
     });
   },
 
-  edit(req, res, next){
+  edit(req, res, next) {
     flairQueries.getFlair(req.params.id, (err, flair) => {
-      if(err || flair == null){
+      if (err || flair == null) {
         res.redirect(404, "/");
       } else {
-        res.render("flairs/edit", {flair});
+        res.render("flairs/edit", { flair });
       }
     });
   },
 
-  update(req, res, next){
+  update(req, res, next) {
     flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
-      if(err || flair == null){
+      if (err || flair == null) {
         res.redirect(404, `/flairs/${req.params.id}/edit`);
       } else {
         res.redirect(`/flairs/${flair.id}`);

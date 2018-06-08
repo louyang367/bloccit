@@ -3,61 +3,78 @@ const Topic = require("./models").Topic;
 const Flair = require("./models").Flair;
 
 module.exports = {
-  addPost(newPost, callback){
+  addPost(newPost, callback) {
     return Post.create(newPost)
-    .then((post) => {
-      callback(null, post);
-    })
-    .catch((err) => {
-      callback(err);
-    })
+      .then((post) => {
+        callback(null, post);
+      })
+      .catch((err) => {
+        callback(err);
+      })
   },
 
-  getPost(id, callback){
+  getPost(id, callback) {
     return Post.findById(id, {
       include: [{
         model: Flair,
         as: "flair"
       }]
     })
-    .then((post) => {
-      callback(null, post);
-    })
-    .catch((err) => {
-      callback(err);
-    })
-  },
-
-  deletePost(id, callback){
-    return Post.destroy({
-      where: { id }
-    })
-    .then((deletedRecordsCount) => {
-      callback(null, deletedRecordsCount);
-    })
-    .catch((err) => {
-      callback(err);
-    })
-  },
-
-  updatePost(id, updatedPost, callback){
-    return Post.findById(id)
-    .then((post) => {
-      if(!post){
-        return callback("Post not found");
-      }
-
-      if (updatedPost.flairId==='') updatedPost.flairId = null;
-      post.update(updatedPost, {
-        fields: Object.keys(updatedPost)
-      })
-      .then(() => {
+      .then((post) => {
         callback(null, post);
       })
       .catch((err) => {
         callback(err);
+      })
+  },
+
+  getPostsByTopic(topicId, callback) {
+    return Post.findAll({
+      where: { topicId: topicId },
+      include: [{
+        model: Flair,
+        as: "flair"
+      }]
+    })
+      .then((posts) => {
+        callback(null, posts);
+      })
+      .catch((err) => {
+        console.log('getPostsByTopic: error=', err)
+        callback(err, null);
+      })
+  },
+
+  deletePost(id, callback) {
+    return Post.destroy({
+      where: { id }
+    })
+      .then((deletedRecordsCount) => {
+        callback(null, deletedRecordsCount);
+      })
+      .catch((err) => {
+        callback(err);
+      })
+  },
+
+  updatePost(id, updatedPost, callback) {
+    return Post.findById(id)
+      .then((post) => {
+        if (!post) {
+          return callback("Post not found");
+        }
+
+        if (updatedPost.flairId === '') updatedPost.flairId = null;
+        post.update(updatedPost, {
+          fields: Object.keys(updatedPost)
+        })
+          .then(() => {
+            callback(null, post);
+          })
+          .catch((err) => {
+            callback(err);
+          });
       });
-    });
   }
 
 }

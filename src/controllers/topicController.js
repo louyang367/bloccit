@@ -1,5 +1,6 @@
 const topicQueries = require("../db/queries.topics.js");
 const flairQueries = require("../db/queries.flairs.js");
+const postQueries = require("../db/queries.posts.js");
 
 module.exports = {
   index(req, res, next) {
@@ -21,11 +22,10 @@ module.exports = {
   },
 
   create(req, res, next) {
-console.log('in create:req.body=',req.body)    
     let newTopic = {
       title: req.body.title,
       description: req.body.description,
-      flairId: req.body.flairId==''?null:req.body.flairId
+      flairId: req.body.flairId == '' ? null : req.body.flairId
     };
     topicQueries.addTopic(newTopic, (err, topic) => {
       if (err) {
@@ -39,12 +39,18 @@ console.log('in create:req.body=',req.body)
   show(req, res, next) {
     topicQueries.getTopic(req.params.id, (err, topic) => {
       if (err || topic == null) {
-console.log('topic not found: ',err)
+        console.log('topic not found: ', err)
         res.redirect(404, "/");
       } else {
-console.log('topic.flairId=',topic.flairId)
-        res.render("topics/show", { topic });
-      }
+        postQueries.getPostsByTopic(topic.id, (err, posts) => {
+          if (err || posts == null) {
+            console.log('topicController:show: err=', err, ' posts=', posts)
+            res.redirect(404, "/");
+          } else {
+            res.render("topics/show", { topic: topic, posts: posts });
+          }
+        })
+      };
     });
   },
 
@@ -65,9 +71,9 @@ console.log('topic.flairId=',topic.flairId)
       } else {
         flairQueries.getAllFlairs((err, allFlairs) => {
           if (err) console.log(err);
-          res.render("topics/edit", { topic:topic, allFlairs:allFlairs });
-      })
-    }
+          res.render("topics/edit", { topic: topic, allFlairs: allFlairs });
+        })
+      }
     });
   },
 

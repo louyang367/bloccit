@@ -11,6 +11,16 @@
         <main class="container">
             <h1><%= topic.title %></h1>
 
+            <% if (topic.flairId) { %>
+              <%= topic.flair.name %>
+              <button style="background: <%= topic.flair.color %>">
+                <%= topic.flair.name %>
+              </button>
+            <% } else { %>
+              <p>No flair</p>
+            <% } %>
+            <hr color='grey'>
+
             <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
             <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
             <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
@@ -20,24 +30,19 @@
             <p><%= topic.description %></p>
 
             <hr>
-            <h3>Flair</h3>
-            <% if (topic.flairId) { %>
-              <%= topic.flair.name %>
-              <button style="background: <%= topic.flair.color %>">
-                <%= topic.flair.name %>
-              </button>
-            <% } else { %>
-              <p>No flair</p>
-            <% } %>
-
-            <hr>
             <h1>Posts</h1>
          
             <ul class="list-group">
-              <% topic.posts.forEach((post) => { %>
+              <% posts.forEach((post) => { %>
                 <li class="list-group-item">
-                  <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"> <%= post.title %> </a>
-                  </li>
+                  <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"> <%= post.title %>
+                  <% if (post.flairId) { %>
+                    <button style="background: <%= post.flair.color %>">
+                      <%= post.flair.name %>
+                    </button>
+                  <% } %>
+                  </a>
+                </li>
               <% }) %>
             </ul>
          

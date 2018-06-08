@@ -35,9 +35,6 @@ module.exports = {
   getTopic(id, callback) {
     return Topic.findById(id, {
       include: [{
-        model: Post,
-        as: "posts"
-      },{
         model: Flair,
         as: "flair"
       }]
@@ -68,18 +65,15 @@ module.exports = {
         if (!topic) {
           return callback("Topic not found");
         }
-console.log('updatedTopic=',updatedTopic)
-console.log('updatedTopic.keys=',Object.keys(updatedTopic));
-        if (updatedTopic.flairId==='') updatedTopic.flairId = null;
+        if (updatedTopic.flairId === '') updatedTopic.flairId = null;
         topic.update(updatedTopic, {
           fields: Object.keys(updatedTopic)
         })
           .then((topic) => {
-console.log('after updateTopic: topic=',topic)
             callback(null, topic);
           })
           .catch((err) => {
-console.log('after updateTopic, error: ',err)
+            console.log('after updateTopic, error: ', err)
             callback(err);
           });
       });
