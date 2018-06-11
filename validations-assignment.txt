@@ -1,0 +1,6 @@
+Strategy passport-jwt enables stateless authenticating with a JSON Web Token.
+
+- When the user first logs in, the server authenticates the user (using Local strategy with session set to null, for example) and creates a signed token (using the jsonwebtoken module, for example) with the contents of the user object and returns it in response. If everything you'll need about the user is stored in the JWT payload, there is no need for any more user database accesses.
+- The client saves the token locally and sends it back in every subsequent request that needs authentication. 
+- All subsequent requests needing authentication pass through the middleware passort.authenticate() call that checks the provided token and allows the request only if the token is verified.
+- This strategy allows the JWT token to be included in and extracted from the request in different pre-set ways, or be defined in your own callback.
