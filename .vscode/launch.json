@@ -10,10 +10,12 @@
       "name": "Jasmine Individual Test",
       "program": "${workspaceRoot}\\node_modules\\jasmine\\bin\\jasmine.js",
       "args": [
-        "spec/integration/posts_spec.js"
+        "spec/integration/topics_spec.js"
       ],
       "env": {
-        "NODE_PATH": "."
+        "NODE_PATH": ".",
+        "NODE_ENV": "test"
       }
     }
   ]
+}

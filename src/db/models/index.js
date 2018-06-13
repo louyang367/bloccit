@@ -8,6 +8,7 @@ let localpath = path.join(__dirname, path.normalize('../config/'), 'config.json'
 var config    = require(localpath)[env];
 var db        = {};
 
+console.log('model index.js: env=',env)
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
