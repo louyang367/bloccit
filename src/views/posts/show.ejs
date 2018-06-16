@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ../static/partials/head.ejs %>
-  </head>
-  <body>
-    <% include ../static/partials/navbar.ejs %>
+
+<head>
+  <% include ../static/partials/head.ejs %>
+</head>
+
+<body>
+  <% include ../static/partials/navbar.ejs %>
+  <% include ../static/partials/messages.ejs %>
 
     <main class="container">
-      <h1><%= post.title %></h1>
+      <h1>
+        <%= post.title %>
+      </h1>
       <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
       <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
-      </form> 
-      <p><%= post.body %></p>
+      </form>
+      <p>
+        <%= post.body %>
+      </p>
+
+      <section id="comment-form">
+
+        <!-- #1 -->
+        <% if(currentUser) { %>
+          <% include ../comments/new.ejs %>
+        <% } %>
+      </section>
+
+      <!-- #2 -->
+      <section id="comment-list">
+        <% if(post.comments) { %>
+          <% post.comments.forEach((comment) => { %>
+
+            <!-- #3 -->
+            <%- include("../comments/show.ejs", {comment}) %>
+          <% }) %>
+        <% } %>
+      </section>
+
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
 
-  </body>
+</body>
+
 </html>
