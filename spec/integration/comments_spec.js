@@ -9,10 +9,9 @@ const User = require("../../src/db/models").User;
 const Comment = require("../../src/db/models").Comment;
 
 describe("routes : comments", () => {
-console.log('IN!!!!')
+
   beforeEach((done) => {
 
-    // #2
     this.user;
     this.topic;
     this.post;
@@ -20,7 +19,6 @@ console.log('IN!!!!')
 
     sequelize.sync({ force: true }).then((res) => {
 
-      // #3
       User.create({
         email: "starman@tesla.com",
         password: "Trekkie4lyfe"
@@ -69,10 +67,8 @@ console.log('IN!!!!')
   });
 
   //test suites will go there
-  // #1
   describe("guest attempting to perform CRUD actions for Comment", () => {
 
-    // #2
     beforeEach((done) => {    // before each suite in this context
       request.get({           // mock authentication
         url: "http://localhost:3000/auth/fake",
@@ -86,7 +82,6 @@ console.log('IN!!!!')
       );
     });
 
-    // #3
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
 
       it("should not create a new comment", (done) => {
@@ -98,7 +93,6 @@ console.log('IN!!!!')
         };
         request.post(options,
           (err, res, body) => {
-            // #4
             Comment.findOne({ where: { body: "This comment is amazing!" } })
               .then((comment) => {
                 expect(comment).toBeNull();   // ensure no comment was created
@@ -113,7 +107,6 @@ console.log('IN!!!!')
       });
     });
 
-    // #5
     describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
 
       it("should not delete the comment with the associated ID", (done) => {
@@ -156,7 +149,6 @@ console.log('IN!!!!')
       );
     });
 
-    // #2
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
 
       it("should create a new comment and redirect", (done) => {
@@ -184,10 +176,9 @@ console.log('IN!!!!')
       });
     });
 
-    // #3
     describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
 
-      it("should delete the comment with the associated ID", (done) => {
+      it("should delete the comment with the associated ID that himself created", (done) => {
         Comment.all()
           .then((comments) => {
             const commentCountBeforeDelete = comments.length;
@@ -210,9 +201,87 @@ console.log('IN!!!!')
 
       });
 
+      it("should NOT delete the comment with the associated ID that himself did not create", (done) => {
+
+        request.get({
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: "member",
+            userId: 999 // a differernt member
+          }
+        },
+          (err, res, body) => {
+            if (err) console.error(err.stack)
+
+            Comment.all()
+              .then((comments) => {
+                const commentCountBeforeDelete = comments.length;
+
+                expect(commentCountBeforeDelete).toBe(1);
+
+                request.post(
+                  `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+                  (err, res, body) => {
+                    expect(res.statusCode).toBe(401);
+                    Comment.all()
+                      .then((comments) => {
+                        expect(err).toBeNull();
+                        expect(comments.length).toBe(commentCountBeforeDelete); // same as before
+                        done();
+                      })
+                  });
+              })
+          })
+
+      })
+    })
+
+  });
+
+  describe("admin user performing CRUD actions for Comment", () => {
+
+    beforeEach((done) => {
+
+      request.get({
+        url: "http://localhost:3000/auth/fake",
+        form: {
+          role: "admin",
+          userId: 999
+        }
+      },
+        (err, res, body) => {
+          if (err) console.error(err.stack)
+          done();
+        }
+      );
     });
 
-  }); //end context for signed in user
+    describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+
+      it("should delete the comment with the associated ID some other member created", (done) => {
+        Comment.all()
+          .then((comments) => {
+            const commentCountBeforeDelete = comments.length;
+
+            expect(commentCountBeforeDelete).toBe(1);
+
+            request.post(
+              `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+              (err, res, body) => {
+                expect(res.statusCode).toBe(302);
+                Comment.all()
+                  .then((comments) => {
+                    expect(err).toBeNull();
+                    expect(comments.length).toBe(commentCountBeforeDelete - 1);
+                    done();
+                  })
+
+              });
+          })
+
+      });
+    })
+  });
 
 });
 
