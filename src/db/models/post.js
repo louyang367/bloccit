@@ -38,8 +38,39 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "postId",
       as: "comments"
     });
- 
+
+    Post.hasMany(models.Vote, {
+      foreignKey: "postId",
+      as: "votes"
+    });
+  }
+
+  Post.prototype.getPoints = function () {
+
+    if (this.votes.length === 0) return 0
+
+    return this.votes
+      .map((v) => { return v.value })
+      .reduce((prev, next) => { return prev + next });
   };
+
+  Post.prototype.hasUpvoteFor = function (userId) {
+
+    if (this.votes.length === 0) return false;
+
+    let index = this.votes
+      .findIndex((v) => { return v.value === 1 && v.userId === userId });
+    return (index > -1);
+  }
+
+  Post.prototype.hasDownvoteFor = function (userId) {
+
+    if (this.votes.length === 0) return false;
+
+    let index = this.votes
+      .findIndex((v) => { return v.value === -1 && v.userId === userId });
+    return (index > -1);
+  }
 
   return Post;
 };
