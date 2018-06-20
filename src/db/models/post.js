@@ -48,9 +48,17 @@ module.exports = (sequelize, DataTypes) => {
       return models.Favorite.create({
         userId: post.userId,
         postId: post.id
-      });
+      }).then((favorite)=>{
+        models.Vote.create({
+          value: 1,
+          postId: favorite.postId,
+          userId: favorite.userId
+        }).catch((err) => {
+          console.log(err);
+        })
+      })
     });
- 
+
     Post.hasMany(models.Vote, {
       foreignKey: "postId",
       as: "votes"
